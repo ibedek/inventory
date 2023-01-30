@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Persistence.Migrations
 {
     [DbContext(typeof(InventoryDbContext))]
-    [Migration("20230130203207_Initial")]
+    [Migration("20230130210302_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -45,11 +45,10 @@ namespace Inventory.Persistence.Migrations
                     b.Property<long>("Prefix")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -82,16 +81,15 @@ namespace Inventory.Persistence.Migrations
                     b.Property<long>("ReferenceNumber")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("ReferenceNumber");
+                    b.HasAlternateKey("ReferenceNumber", "CompanyId");
 
                     b.HasIndex("CompanyId");
 
@@ -101,12 +99,17 @@ namespace Inventory.Persistence.Migrations
             modelBuilder.Entity("Inventory.Core.Entities.Product", b =>
                 {
                     b.HasOne("Inventory.Core.Entities.Company", "Company")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("Inventory.Core.Entities.Company", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

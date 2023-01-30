@@ -9,5 +9,8 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
     public void Configure(EntityTypeBuilder<Company> builder)
     {
         builder.HasAlternateKey(x => x.Prefix);
+        builder.HasMany(x => x.Products)
+            .WithOne(x => x.Company)
+            .HasForeignKey(x => x.CompanyId);
     }
 }

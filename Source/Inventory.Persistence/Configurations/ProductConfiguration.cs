@@ -8,6 +8,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
-        builder.HasAlternateKey(x => x.ReferenceNumber);
+        builder.HasAlternateKey(x => new { x.ReferenceNumber, x.CompanyId });
     }
 }

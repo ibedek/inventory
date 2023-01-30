@@ -56,25 +56,27 @@ public class BulkInsertProductsCommand : IRequest<ResponseBaseModel<string>>
                     .Select(x => x.Id)
                     .FirstOrDefaultAsync(cancellationToken);
 
-                if (companyId is null)
+                if (companyId == Guid.Empty)
                 {
                     companyId = Guid.NewGuid();
                     _db.Companies.Add(new(_dateTime.Now, _currentUser.Username)
                     {
+                        Id = companyId.Value,
                         Prefix = companyPrefix,
                         Name = columns[1]
                     });
                 }
 
                 Guid? productId = await _db.Products
-                    .Where(x => x.ReferenceNumber == productReference)
+                    .Where(x => x.ReferenceNumber == productReference && x.CompanyId == companyId)
                     .Select(x => x.Id)
                     .FirstOrDefaultAsync(cancellationToken);
 
-                if (productId is null)
+                if (productId == Guid.Empty)
                 {
                     _db.Products.Add(new(_dateTime.Now, _currentUser.Username)
                     {
+                        Id = Guid.NewGuid(),
                         ReferenceNumber = productReference,
                         Name = columns[3],
                         CompanyId = companyId.Value

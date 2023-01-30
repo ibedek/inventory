@@ -4,7 +4,7 @@ public record Company : AuditableEntity
 {
     public Company()
     {
-        
+        Products = new HashSet<Product>();
     }
     
     public Company(DateTime createdAt, string createdBy)
@@ -16,4 +16,6 @@ public record Company : AuditableEntity
     
     public long Prefix { get; set; }
     public string Name { get; set; } = default!;
+    
+    public virtual IEnumerable<Product> Products { get; set; }
 }
