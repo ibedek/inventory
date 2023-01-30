@@ -1,0 +1,3 @@
+﻿
+//a.Decode("3074257BF7194E4000000A85");
+Sgtin.SgtinProcessor.Decode("3034257BF400B7800004CB2F");
