@@ -1,0 +1,29 @@
+﻿version: "3.4"
+
+services:
+  api:
+    build:
+      context: ../
+      dockerfile: ./Docker/Dockerfile-API
+    ports:
+      - "8080:80"
+    depends_on:
+      - db  
+        
+  db_update: 
+    build: 
+      context: ../
+      dockerfile: ./Docker/Dockerfile-DbUpdate
+    depends_on: 
+      - db
+    restart: on-failure
+    environment:
+      DB_CONNECTION: "Server=db;Database=inventory;User Id=sa;Password=8IZ5o#wHFvQ41KMt;Trust Server Certificate=true;"
+    
+  db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    ports:
+      - "1433:1433"    
+    environment:
+      SA_PASSWORD: "8IZ5o#wHFvQ41KMt"
+      ACCEPT_EULA: "Y"
