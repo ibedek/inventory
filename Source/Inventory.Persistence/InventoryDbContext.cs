@@ -12,6 +12,8 @@ public class InventoryDbContext : DbContext, IInventoryDbContext
 
     public DbSet<Company> Companies { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<Warehouse> Warehouses { get; set; }
+    public DbSet<WarehouseItem> WarehouseItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

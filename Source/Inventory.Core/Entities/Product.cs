@@ -7,6 +7,7 @@ public record Product : AuditableEntity
         Id = Guid.NewGuid();
         CreatedAt = createdAt;
         CreatedBy = createdBy;
+        WarehouseItems = new HashSet<WarehouseItem>();
     }
     
     public long ReferenceNumber { get; set; }
@@ -14,4 +15,5 @@ public record Product : AuditableEntity
 
     public Guid CompanyId { get; set; }
     public Company Company { get; set; }
+    public virtual ICollection<WarehouseItem> WarehouseItems { get; set; }
 }
