@@ -15,6 +15,7 @@ public class SgtinProcessor
     public static SgtinTagInfo Decode(string tag)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(tag);
+        
         if (tag.Length % 2 != 0)
         {
             throw new ArgumentOutOfRangeException("Tag malformed. Length should be odd.");
