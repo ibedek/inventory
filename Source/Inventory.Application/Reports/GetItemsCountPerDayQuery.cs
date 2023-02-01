@@ -8,7 +8,7 @@ namespace Inventory.Application.Reports;
 public class GetItemsCountPerDayQuery : PaginatedRequestBaseModel, IRequest<PaginatedResponseBaseModel<ReportVm>>
 {
     public DateTime? Date { get; set; }
-    
+
     private sealed class GetItemsCountPerDayQueryHandler : IRequestHandler<GetItemsCountPerDayQuery, PaginatedResponseBaseModel<ReportVm>>
     {
         private readonly IInventoryDbContext _db;
@@ -35,14 +35,14 @@ public class GetItemsCountPerDayQuery : PaginatedRequestBaseModel, IRequest<Pagi
             }
 
             var groupedQuery = query.GroupBy(x => new
-                {
-                    x.ProductId,
-                    x.Date.Date,
-                    ProductName = x.Product.Name,
-                    x.Product.ReferenceNumber,
-                    CompanyName = x.Product.Company.Name,
-                    x.Product.Company.Prefix
-                })
+            {
+                x.ProductId,
+                x.Date.Date,
+                ProductName = x.Product.Name,
+                x.Product.ReferenceNumber,
+                CompanyName = x.Product.Company.Name,
+                x.Product.Company.Prefix
+            })
                 .Select(x => new ReportVm()
                 {
                     ProductReference = x.Key.ReferenceNumber,

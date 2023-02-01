@@ -43,14 +43,14 @@ public class GetItemsByCompanyQuery : PaginatedRequestBaseModel, IRequest<Pagina
             }
 
             var groupedQuery = query.GroupBy(x => new
-                {
-                    x.ProductId,
-                    x.Product.CompanyId,
-                    x.Product.ReferenceNumber,
-                    ProductName = x.Product.Name,
-                    x.Product.Company.Prefix,
-                    CompanyName = x.Product.Company.Name,
-                })
+            {
+                x.ProductId,
+                x.Product.CompanyId,
+                x.Product.ReferenceNumber,
+                ProductName = x.Product.Name,
+                x.Product.Company.Prefix,
+                CompanyName = x.Product.Company.Name,
+            })
                 .Select(x => new ReportVm()
                 {
                     ProductName = x.Key.ProductName,

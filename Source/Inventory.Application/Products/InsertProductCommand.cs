@@ -10,9 +10,9 @@ namespace Inventory.Application.Products;
 
 public class InsertProductCommand : IRequest<ResponseBaseModel<ProductDto>>
 {
-    public string? ItemName { get; set; }
+    public string ItemName { get; set; } = default!;
     public long ItemReference { get; set; }
-    public string? CompanyName { get; set; }
+    public string CompanyName { get; set; } = default!;
     public long CompanyPrefix { get; set; }
 
     private sealed class
@@ -37,12 +37,12 @@ public class InsertProductCommand : IRequest<ResponseBaseModel<ProductDto>>
         public async Task<ResponseBaseModel<ProductDto>> Handle(InsertProductCommand request,
             CancellationToken cancellationToken)
         {
-            string[] errors = new string[0] { };
-            Company company = null;
-            Product product = null;
+            List<string> errors = new();
+            Company? company = null;
+            Product? product = null;
             if (request.CompanyPrefix <= 0)
             {
-                errors.Append("INVALID_COMPANY_PREFIX");
+                errors.Add("INVALID_COMPANY_PREFIX");
             }
             else
             {
@@ -52,12 +52,12 @@ public class InsertProductCommand : IRequest<ResponseBaseModel<ProductDto>>
 
             if (company is null && string.IsNullOrEmpty(request.CompanyName))
             {
-                errors.Append("INVALID_COMPANY_NAME");
+                errors.Add("INVALID_COMPANY_NAME");
             }
 
             if (request.ItemReference <= 0)
             {
-                errors.Append("INVALID_ITEM_REFERENCE");
+                errors.Add("INVALID_ITEM_REFERENCE");
             }
             else
             {
@@ -67,12 +67,12 @@ public class InsertProductCommand : IRequest<ResponseBaseModel<ProductDto>>
 
             if (product is null && string.IsNullOrEmpty(request.ItemName))
             {
-                errors.Append("INVALID_PRODUCT_NAME");
+                errors.Add("INVALID_PRODUCT_NAME");
             }
 
-            if (errors.Length > 0)
+            if (errors.Count > 0)
             {
-                return ResponseBaseModel<ProductDto>.Failure(errors);
+                return ResponseBaseModel<ProductDto>.Failure(errors.ToArray());
             }
 
             if (company is null)
@@ -81,7 +81,7 @@ public class InsertProductCommand : IRequest<ResponseBaseModel<ProductDto>>
                 {
                     Prefix = request.CompanyPrefix,
                     Name = request.CompanyName
-                });
+                }, cancellationToken);
                 if (!companyUpsertResult.Succeess)
                 {
                     return ResponseBaseModel<ProductDto>.Failure(companyUpsertResult.Errors);

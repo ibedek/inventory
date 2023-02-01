@@ -9,11 +9,11 @@ public record Product : AuditableEntity
         CreatedBy = createdBy;
         WarehouseItems = new HashSet<WarehouseItem>();
     }
-    
+
     public long ReferenceNumber { get; set; }
     public string Name { get; set; } = default!;
 
     public Guid CompanyId { get; set; }
-    public Company Company { get; set; }
+    public Company Company { get; set; } = default!;
     public virtual ICollection<WarehouseItem> WarehouseItems { get; set; }
 }

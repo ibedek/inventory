@@ -11,7 +11,7 @@ public class UpsertCompanyCommand : IRequest<ResponseBaseModel<CompanyDto>>
 {
     public Guid? Id { get; set; }
     public long Prefix { get; set; }
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     private sealed class UpsertCompanyCommandHandler : IRequestHandler<UpsertCompanyCommand, ResponseBaseModel<CompanyDto>>
     {
@@ -30,8 +30,8 @@ public class UpsertCompanyCommand : IRequest<ResponseBaseModel<CompanyDto>>
 
         public async Task<ResponseBaseModel<CompanyDto>> Handle(UpsertCompanyCommand request, CancellationToken cancellationToken)
         {
-            Company company;
-            string[] errors = new string[0]{};
+            Company? company;
+            string[] errors = new string[0] { };
             if (string.IsNullOrEmpty(request.Name))
             {
                 errors.Append("NAME_REQUIRED");
@@ -46,7 +46,7 @@ public class UpsertCompanyCommand : IRequest<ResponseBaseModel<CompanyDto>>
             {
                 return ResponseBaseModel<CompanyDto>.Failure(errors);
             }
-            
+
             if (request.Id.HasValue)
             {
                 company = await _db.Companies.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);

@@ -6,16 +6,17 @@ public record Company : AuditableEntity
     {
         Products = new HashSet<Product>();
     }
-    
+
     public Company(DateTime createdAt, string createdBy)
     {
         Id = Guid.NewGuid();
         CreatedAt = createdAt;
         CreatedBy = createdBy;
+        Products = new HashSet<Product>();
     }
-    
+
     public long Prefix { get; set; }
     public string Name { get; set; } = default!;
-    
+
     public virtual IEnumerable<Product> Products { get; set; }
 }

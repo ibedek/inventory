@@ -1,29 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{7069B69C-F810-42D7-8460-20D55D2A745E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{328A985D-201E-4AF5-923C-34CA3718A105}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.API", "Source\Inventory.API\Inventory.API.csproj", "{2751F7E7-7BE8-46AB-9B44-9FFDE8964D5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.API", "Source\Inventory.API\Inventory.API.csproj", "{2751F7E7-7BE8-46AB-9B44-9FFDE8964D5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Core", "Source\Inventory.Core\Inventory.Core.csproj", "{67454562-6182-42FD-A012-84A810BE0BFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Core", "Source\Inventory.Core\Inventory.Core.csproj", "{67454562-6182-42FD-A012-84A810BE0BFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgtin", "Source\Sgtin\Sgtin.csproj", "{D20B4D1F-A9BF-4305-BF60-A8ACEC28F8D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgtin", "Source\Sgtin\Sgtin.csproj", "{D20B4D1F-A9BF-4305-BF60-A8ACEC28F8D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SgtinProcessorRunner", "Source\SgtinProcessorRunner\SgtinProcessorRunner.csproj", "{BC9661FF-B611-4484-A962-8D78F6ED7086}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgtinProcessorRunner", "Source\SgtinProcessorRunner\SgtinProcessorRunner.csproj", "{BC9661FF-B611-4484-A962-8D78F6ED7086}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Application", "Source\Inventory.Application\Inventory.Application.csproj", "{5E1F828B-7EB9-46DE-A608-E4684C8B9EA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Application", "Source\Inventory.Application\Inventory.Application.csproj", "{5E1F828B-7EB9-46DE-A608-E4684C8B9EA7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Persistence", "Source\Inventory.Persistence\Inventory.Persistence.csproj", "{495E2B23-93FC-4B15-8CD1-B12CD4748E25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Persistence", "Source\Inventory.Persistence\Inventory.Persistence.csproj", "{495E2B23-93FC-4B15-8CD1-B12CD4748E25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{2751F7E7-7BE8-46AB-9B44-9FFDE8964D5E} = {7069B69C-F810-42D7-8460-20D55D2A745E}
-		{67454562-6182-42FD-A012-84A810BE0BFC} = {7069B69C-F810-42D7-8460-20D55D2A745E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2751F7E7-7BE8-46AB-9B44-9FFDE8964D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -50,5 +47,17 @@ Global
 		{495E2B23-93FC-4B15-8CD1-B12CD4748E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{495E2B23-93FC-4B15-8CD1-B12CD4748E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{495E2B23-93FC-4B15-8CD1-B12CD4748E25}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2751F7E7-7BE8-46AB-9B44-9FFDE8964D5E} = {7069B69C-F810-42D7-8460-20D55D2A745E}
+		{67454562-6182-42FD-A012-84A810BE0BFC} = {7069B69C-F810-42D7-8460-20D55D2A745E}
+		{5E1F828B-7EB9-46DE-A608-E4684C8B9EA7} = {7069B69C-F810-42D7-8460-20D55D2A745E}
+		{495E2B23-93FC-4B15-8CD1-B12CD4748E25} = {7069B69C-F810-42D7-8460-20D55D2A745E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEE407F8-A50F-4ACD-88C7-AF6B506A5752}
 	EndGlobalSection
 EndGlobal

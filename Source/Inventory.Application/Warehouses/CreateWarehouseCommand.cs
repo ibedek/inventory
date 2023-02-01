@@ -8,8 +8,8 @@ namespace Inventory.Application.Warehouses;
 
 public class CreateWarehouseCommand : IRequest<ResponseBaseModel<string>>
 {
-    public string Code { get; set; }
-    public string Location { get; set; }
+    public string Code { get; set; } = default!;
+    public string Location { get; set; } = default!;
 
     private sealed class
         CreateWarehouseCommandHandler : IRequestHandler<CreateWarehouseCommand, ResponseBaseModel<string>>
@@ -31,6 +31,22 @@ public class CreateWarehouseCommand : IRequest<ResponseBaseModel<string>>
         public async Task<ResponseBaseModel<string>> Handle(CreateWarehouseCommand request,
             CancellationToken cancellationToken)
         {
+            var errors = new List<string>();
+            if (string.IsNullOrEmpty(request.Code))
+            {
+                errors.Add("INVALID_WAREHOUSE_CODE");
+            }
+
+            if (string.IsNullOrEmpty(request.Location))
+            {
+                errors.Add("INVALID_WAREHOUSE_LOCATION");
+            }
+
+            if (errors.Count > 0)
+            {
+                return ResponseBaseModel<string>.Failure(errors.ToArray());
+            }
+
             var warehouse = new Warehouse()
             {
                 Id = Guid.NewGuid(),

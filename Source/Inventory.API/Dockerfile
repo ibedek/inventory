@@ -6,6 +6,10 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Source/Inventory.API/Inventory.API.csproj", "Source/Inventory.API/"]
+COPY ["Source/Inventory.Application/Inventory.Application.csproj", "Source/Inventory.Application/"]
+COPY ["Source/Inventory.Core/Inventory.Core.csproj", "Source/Inventory.Core/"]
+COPY ["Source/Inventory.Persistence/Inventory.Persistence.csproj", "Source/Inventory.Persistence/"]
+COPY ["Source/Sgtin/Sgtin.csproj", "Source/Sgtin/"]
 RUN dotnet restore "Source/Inventory.API/Inventory.API.csproj"
 COPY . .
 WORKDIR "/src/Source/Inventory.API"

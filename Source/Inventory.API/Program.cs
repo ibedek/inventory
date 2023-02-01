@@ -16,7 +16,7 @@ builder.Services.AddTransient<ICurrentUser, CurrentUserService>();
 builder.Services.AddTransient<IDateTime, MachineDateTime>();
 
 builder.Services.AddInventoryPersistence(builder.Configuration);
-    
+
 builder.Services.AddInventoryApplication();
 
 var app = builder.Build();

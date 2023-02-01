@@ -11,10 +11,10 @@ namespace Inventory.Application.Receipts;
 
 public class ImportReceiptCommand : IRequest<ResponseBaseModel<List<string>>>
 {
-    public string InventoryCode { get; set; }
-    public string InventoryLocation { get; set; }
+    public string InventoryCode { get; set; } = default!;
+    public string InventoryLocation { get; set; } = default!;
     public DateTime? DateOfInventory { get; set; }
-    public List<string>? Tags { get; set; }
+    public List<string> Tags { get; set; } = default!;
 
     private sealed class
         ImportReceiptCommandHandler : IRequestHandler<ImportReceiptCommand, ResponseBaseModel<List<string>>>
@@ -114,7 +114,7 @@ public class ImportReceiptCommand : IRequest<ResponseBaseModel<List<string>>>
                 }
                 catch (Exception e)
                 {
-                    errors.Add($"Cannot process tag, {tag}");
+                    errors.Add($"Cannot process tag: {e.Message}, {tag}");
                     continue;
                 }
 

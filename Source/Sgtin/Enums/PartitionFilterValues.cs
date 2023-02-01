@@ -2,7 +2,7 @@
 
 public static class PartitionFilterValues
 {
-    public static Dictionary<int, string> SgtinFilterValues = new Dictionary<int, string>()
+    public static Dictionary<int, string> SgtinFilterValues = new()
     {
         {0 , "Other"},
         {1, "PointOfSale"},
@@ -13,8 +13,8 @@ public static class PartitionFilterValues
         {6, "UnitLoad"},
         {7, "UnitInsideTradeItem"},
     };
-    
-    public static Dictionary<int, int[]> Sgtin96PartitionMap = new Dictionary<int, int[]>()
+
+    public static Dictionary<int, int[]> Sgtin96PartitionMap = new()
     {
         { 0, new[] { 40, 4 } },
         { 1, new[] { 37, 7 } },
@@ -34,7 +34,7 @@ public static class PartitionFilterValues
 
         if (prefixLength > 12)
         {
-            throw new ArgumentOutOfRangeException("Invalid company prefix");
+            throw new ArgumentOutOfRangeException(nameof(prefixLength), "Invalid company prefix");
         }
 
         // partition is actually arithmetic progression: https://en.wikipedia.org/wiki/Arithmetic_progression

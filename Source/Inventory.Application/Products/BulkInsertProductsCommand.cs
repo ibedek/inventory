@@ -9,7 +9,7 @@ namespace Inventory.Application.Products;
 
 public class BulkInsertProductsCommand : IRequest<ResponseBaseModel<string>>
 {
-    public IFormFile File { get; set; }
+    public IFormFile File { get; set; } = default!;
     public bool HasHeaders { get; set; } = true;
     public string ColumnSeparator { get; set; } = ";";
 

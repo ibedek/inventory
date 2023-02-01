@@ -1,5 +1,5 @@
-﻿using System.Security.Claims;
-using Inventory.Application.Interfaces;
+﻿using Inventory.Application.Interfaces;
+using System.Security.Claims;
 
 namespace Inventory.API.Services;
 
@@ -9,6 +9,6 @@ public class CurrentUserService : ICurrentUser
     {
         Username = httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value ?? "API User";
     }
-    
+
     public string Username { get; }
 }

@@ -28,7 +28,7 @@ public class GetProductsQuery : PaginatedRequestBaseModel, IRequest<PaginatedRes
                 .AsNoTracking()
                 .Include(x => x.Company)
                 .AsQueryable();
-            
+
             if (!string.IsNullOrEmpty(request.ProductName))
             {
                 query = query.Where(x => x.Name.ToLower().Contains(request.ProductName.ToLower()));

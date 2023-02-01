@@ -1,24 +1,17 @@
-﻿using System.Collections;
-using Sgtin.Enums;
+﻿using Sgtin.Enums;
+using System.Collections;
 
 namespace Sgtin;
 
 public class SgtinProcessor
 {
-    private TagType Type { get; set; }
-
-    public SgtinProcessor(TagType type)
-    {
-        Type = type;
-    }
-
     public static SgtinTagInfo Decode(string tag)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(tag);
-        
+
         if (tag.Length % 2 != 0)
         {
-            throw new ArgumentOutOfRangeException("Tag malformed. Length should be odd.");
+            throw new ArgumentOutOfRangeException(nameof(tag), "Tag malformed. Length should be odd.");
         }
 
         return Decode((ReadOnlySpan<char>)tag);
@@ -32,28 +25,21 @@ public class SgtinProcessor
     public static string Encode(TagType type, int filter, ulong companyPrefix, ulong itemReference, ulong itemSerial,
         int companyPrefixLength = -1, int partition = -1)
     {
-        int totalTagLength = 0;
-        switch (type)
+        int totalTagLength = type switch
         {
-            case TagType.Sgtin96:
-                totalTagLength = 96;
-                break;
-            case TagType.Sgtin198:
-                totalTagLength = 198;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException("Unsupported tag type");
-        }
-
+            TagType.Sgtin96 => 96,
+            TagType.Sgtin198 => 198,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), "Unsupported tag type"),
+        };
         var tagBits = new BitArray(totalTagLength);
-        var tagType = ReverseBitArray(new BitArray(new byte[]{(byte)type}));
+        var tagType = ReverseBitArray(new BitArray(new byte[] { (byte)type }));
         for (int i = 0; i < tagType.Length; i++)
         {
             tagBits[i] = tagType[i];
         }
 
         var tagFilter = new BitArray(new byte[] { (byte)filter });
-        for (int i = 2, j = 0; i >=0; i--, j++)
+        for (int i = 2, j = 0; i >= 0; i--, j++)
         {
             tagBits[8 + j] = tagFilter[i];
         }
@@ -76,32 +62,25 @@ public class SgtinProcessor
 
         var itemRefernceLsb = PartitionFilterValues.Sgtin96PartitionMap[partitionValue][1];
         var itemReferenceBits = new BitArray(BitConverter.GetBytes(itemReference));
-        
+
         for (int i = itemRefernceLsb - 1, j = 0; i >= 0; i--, j++)
         {
             tagBits[14 + companyPrefixLsb + j] = itemReferenceBits[i];
         }
-        
+
         var itemSerialBits = new BitArray(BitConverter.GetBytes(itemSerial));
         for (int i = 37, j = 0; i >= 0; i--, j++)
         {
             tagBits[14 + companyPrefixLsb + itemRefernceLsb + j] = itemSerialBits[i];
         }
 
-        var byteArray = new byte[12]; 
+        var byteArray = new byte[12];
         tagBits.CopyTo(byteArray, 0);
-        
-        
-        
         var flipped = FlipOctetsFromByteArray(byteArray);
-        bool[] debugBits = new bool[tagBits.Length];
-        tagBits.CopyTo(debugBits, 0);
-        string[] debugChars = debugBits.Select(x => x ? "1" : "0").ToArray();
-        Console.WriteLine(string.Join("", debugChars));
-
         byte[] resultBytes = new byte[(int)Math.Ceiling(totalTagLength / 8m)];
         flipped.CopyTo(resultBytes, 0);
         var result = Convert.ToHexString(resultBytes);
+
         return result;
     }
 
@@ -116,7 +95,7 @@ public class SgtinProcessor
             case (int)TagType.Sgtin96:
                 if (tagBytes.Length != 12)
                 {
-                    throw new ArgumentOutOfRangeException("Invalid tag");
+                    throw new ArgumentOutOfRangeException(nameof(tag), "Invalid tag");
                 }
 
                 tagType = TagType.Sgtin96;
@@ -124,7 +103,7 @@ public class SgtinProcessor
             case (int)TagType.Sgtin198:
                 if (tagBytes.Length != 25)
                 {
-                    throw new ArgumentOutOfRangeException("Invalid tag");
+                    throw new ArgumentOutOfRangeException(nameof(tag), "Invalid tag");
                 }
 
                 tagType = TagType.Sgtin198;
@@ -151,14 +130,6 @@ public class SgtinProcessor
             Serial = GetNumericValueFromTag(tagBits, itemReferenceEnd, tagBits.Length)
         };
 
-        bool[] debugBits = new bool[tagBits.Length];
-        tagBits.CopyTo(debugBits, 0);
-        string[] debugChars = debugBits.Select(x => x ? "1" : "0").ToArray();
-        Console.WriteLine(string.Join("", debugChars));
-        Console.WriteLine(result);
-
-        Console.WriteLine(tag.ToString());
-        Console.WriteLine(Encode(result));
         return result;
     }
 

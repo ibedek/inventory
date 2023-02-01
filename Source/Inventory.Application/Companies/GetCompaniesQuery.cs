@@ -23,7 +23,7 @@ public class GetCompaniesQuery : PaginatedRequestBaseModel, IRequest<PaginatedRe
         public async Task<PaginatedResponseBaseModel<CompanyDto>> Handle(GetCompaniesQuery request, CancellationToken cancellationToken)
         {
             var query = _db.Companies.AsNoTracking().AsQueryable();
-            
+
             if (request.Prefix.HasValue)
             {
                 query = query.Where(x => x.Prefix == request.Prefix.Value);

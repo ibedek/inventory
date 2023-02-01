@@ -1,5 +1,4 @@
-﻿using System.Formats.Asn1;
-using Inventory.Application.Interfaces;
+﻿using Inventory.Application.Interfaces;
 using Inventory.Application.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,9 +7,9 @@ namespace Inventory.Application.Reports;
 
 public class GetItemsCountByWarehouseQuery : PaginatedRequestBaseModel, IRequest<PaginatedResponseBaseModel<ReportVm>>
 {
-    public string? WarehouseCode { get; set; }
+    public string WarehouseCode { get; set; } = default!;
     public Guid WarehouseId { get; set; } = default!;
-    
+
     private sealed class GetItemsCountByWarehouseQueryHandler : IRequestHandler<GetItemsCountByWarehouseQuery, PaginatedResponseBaseModel<ReportVm>>
     {
         private readonly IInventoryDbContext _db;
@@ -30,7 +29,8 @@ public class GetItemsCountByWarehouseQuery : PaginatedRequestBaseModel, IRequest
             if (!string.IsNullOrEmpty(request.WarehouseCode))
             {
                 query = query.Where(x => x.Warehouse.Code.ToLower().Equals(request.WarehouseCode.ToLower()));
-            } else if (request.WarehouseId != Guid.Empty)
+            }
+            else if (request.WarehouseId != Guid.Empty)
             {
                 query = query.Where(x => x.Warehouse.Id == request.WarehouseId);
             }
@@ -38,11 +38,11 @@ public class GetItemsCountByWarehouseQuery : PaginatedRequestBaseModel, IRequest
             var groupedQuery = query
                 .GroupBy(x => new
                 {
-                    ProductId = x.ProductId, 
-                    ProductName = x.Product.Name, 
-                    ProductReference = x.Product.ReferenceNumber, 
-                    CompanyName = x.Product.Company.Name, 
-                    CompanyPrefix = x.Product.Company.Prefix    
+                    x.ProductId,
+                    ProductName = x.Product.Name,
+                    ProductReference = x.Product.ReferenceNumber,
+                    CompanyName = x.Product.Company.Name,
+                    CompanyPrefix = x.Product.Company.Prefix
                 })
                 .Select(x => new ReportVm()
                 {

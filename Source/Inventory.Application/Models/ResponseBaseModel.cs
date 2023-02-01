@@ -3,8 +3,8 @@
 public class ResponseBaseModel<T>
 {
     public bool Succeess { get; set; }
-    public string[] Errors { get; set; }
-    public T Result { get; set; }
+    public string[] Errors { get; set; } = new string[0];
+    public T Result { get; set; } = default!;
 
     public static ResponseBaseModel<T> Succeeded(T result)
     {
